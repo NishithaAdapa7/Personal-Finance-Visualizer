@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./App.css";
+
 import TransactionForm from "./Componenet/TransactionForm";
 import TransactionList from "./Componenet/TransactionList";
 import ExpensesChart from "./Componenet/ExpensesChart";
@@ -12,66 +13,75 @@ import SpendingInsights from "./Componenet/SpendingInsights";
 function App() {
   const [transactions, setTransactions] = useState([]);
   const [budgets, setBudgets] = useState([]);
-  const [editingTx, setEditingTx] = useState(null);
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
-  // Fetch Transactions
-  const fetchTransactions = async () => {
+  // Fetch transactions from backend
+  const fetchTransactions = useCallback(async () => {
     try {
-      const res = await fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions");
+      const res = await fetch(
+        "https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions"
+      );
       const data = await res.json();
       setTransactions(data);
     } catch (err) {
-      console.error("Failed to fetch transactions:", err);
+      console.error("Error fetching transactions:", err);
     }
-  };
+  }, []);
 
-  // Fetch Budgets
-  const fetchBudgets = async () => {
+  // Fetch budgets from backend
+  const fetchBudgets = useCallback(async () => {
     try {
-      const res = await fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/budgets");
+      const res = await fetch(
+        "https://personal-finance-visualizer-backend-21c0.onrender.com/api/budgets"
+      );
       const data = await res.json();
       setBudgets(data);
     } catch (err) {
-      console.error("Failed to fetch budgets:", err);
+      console.error("Error fetching budgets:", err);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchTransactions();
     fetchBudgets();
-  }, []);
+  }, [fetchTransactions, fetchBudgets]);
 
-  // Add Transaction
-  const addTransaction = (tx) => {
-    setTransactions([tx, ...transactions]);
+  const addTransaction = (newTx) => {
+    setTransactions([newTx, ...transactions]);
   };
 
-  // Update Transaction
   const updateTransaction = (updatedTx) => {
-    setTransactions(
-      transactions.map((tx) => (tx._id === updatedTx._id ? updatedTx : tx))
+    setTransactions((prev) =>
+      prev.map((tx) => (tx._id === updatedTx._id ? updatedTx : tx))
     );
-    setEditingTx(null);
+    setEditingTransaction(null);
   };
 
-  // Delete Transaction
   const deleteTransaction = async (id) => {
-    await fetch(`https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions/${id}`, {
-      method: "DELETE",
-    });
-    fetchTransactions();
+    try {
+      await fetch(
+        `https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      fetchTransactions();
+    } catch (err) {
+      console.error("Failed to delete transaction:", err);
+    }
   };
 
-  // Add or Update Budget
   const saveBudget = (budget) => {
-    const existing = budgets.find(
+    const exists = budgets.find(
       (b) => b.category === budget.category && b.month === budget.month
     );
 
-    if (existing) {
-      setBudgets(
-        budgets.map((b) =>
-          b.category === budget.category && b.month === budget.month ? budget : b
+    if (exists) {
+      setBudgets((prev) =>
+        prev.map((b) =>
+          b.category === budget.category && b.month === budget.month
+            ? budget
+            : b
         )
       );
     } else {
@@ -80,35 +90,48 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1>Personal Finance Visualizer</h1>
+    <div className="app-container">
+      {/* Animated background */}
+      <div className="background-effect">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
-      {/* Add / Edit Transaction */}
-      <TransactionForm
-        onAdd={addTransaction}
-        editingTx={editingTx}
-        onUpdate={updateTransaction}
-        cancelEdit={() => setEditingTx(null)}
-      />
+      <h1 className="main-title">Personal Finance Visualizer</h1>
 
-      {/* Budget Form */}
-      <BudgetForm onSave={saveBudget} />
+      {/* Forms */}
+      <div className="form-section">
+        <TransactionForm
+          onAdd={addTransaction}
+          editingTx={editingTransaction}
+          onUpdate={updateTransaction}
+          cancelEdit={() => setEditingTransaction(null)}
+        />
+        <BudgetForm onSave={saveBudget} />
+      </div>
 
-      {/* Dashboard */}
-      <DashboardCards transactions={transactions} />
-      <CategoryPieChart transactions={transactions} />
-      <ExpensesChart transactions={transactions} />
+      {/* Dashboard visuals */}
+      <div className="dashboard-section">
+        <DashboardCards transactions={transactions} />
+        <CategoryPieChart transactions={transactions} />
+        <ExpensesChart transactions={transactions} />
+      </div>
 
-      {/* Stage 3: Budgeting Features */}
-      <BudgetComparisonChart transactions={transactions} budgets={budgets} />
-      <SpendingInsights transactions={transactions} budgets={budgets} />
+      {/* Budget analytics */}
+      <div className="budget-section">
+        <BudgetComparisonChart transactions={transactions} budgets={budgets} />
+        <SpendingInsights transactions={transactions} budgets={budgets} />
+      </div>
 
-      {/* Transactions List */}
-      <TransactionList
-        transactions={transactions}
-        onDelete={deleteTransaction}
-        onEdit={(tx) => setEditingTx(tx)}
-      />
+      {/* Transaction list */}
+      <div className="transactions-section">
+        <TransactionList
+          transactions={transactions}
+          onDelete={deleteTransaction}
+          onEdit={setEditingTransaction}
+        />
+      </div>
     </div>
   );
 }
