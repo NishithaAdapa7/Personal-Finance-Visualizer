@@ -12,7 +12,7 @@ export default function TransactionForm({ onAdd, editingTx, onUpdate, cancelEdit
 
   // Fetch categories
   useEffect(() => {
-    fetch("http://localhost:5000/api/categories")
+    fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/categories")
       .then((res) => res.json())
       .then(setCategories);
   }, []);
@@ -41,7 +41,7 @@ export default function TransactionForm({ onAdd, editingTx, onUpdate, cancelEdit
 
     if (editingTx) {
       // Update flow
-      const res = await fetch(`http://localhost:5000/api/transactions/${editingTx._id}`, {
+      const res = await fetch(`https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions/${editingTx._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -50,7 +50,7 @@ export default function TransactionForm({ onAdd, editingTx, onUpdate, cancelEdit
       onUpdate(updatedTx);
     } else {
       // Add flow
-      const res = await fetch("http://localhost:5000/api/transactions", {
+      const res = await fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

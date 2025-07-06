@@ -5,7 +5,7 @@ export default function BudgetForm({ onSave }) {
   const [form, setForm] = useState({ category: "", month: "", amount: "" });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/categories")
+    fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/categories")
       .then((res) => res.json())
       .then(setCategories);
   }, []);
@@ -14,7 +14,7 @@ export default function BudgetForm({ onSave }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/budgets", {
+    const res = await fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/budgets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

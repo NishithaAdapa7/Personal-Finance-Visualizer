@@ -17,7 +17,7 @@ function App() {
   // Fetch Transactions
   const fetchTransactions = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/transactions");
+      const res = await fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions");
       const data = await res.json();
       setTransactions(data);
     } catch (err) {
@@ -28,7 +28,7 @@ function App() {
   // Fetch Budgets
   const fetchBudgets = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/budgets");
+      const res = await fetch("https://personal-finance-visualizer-backend-21c0.onrender.com/api/budgets");
       const data = await res.json();
       setBudgets(data);
     } catch (err) {
@@ -56,7 +56,7 @@ function App() {
 
   // Delete Transaction
   const deleteTransaction = async (id) => {
-    await fetch(`http://localhost:5000/api/transactions/${id}`, {
+    await fetch(`https://personal-finance-visualizer-backend-21c0.onrender.com/api/transactions/${id}`, {
       method: "DELETE",
     });
     fetchTransactions();
