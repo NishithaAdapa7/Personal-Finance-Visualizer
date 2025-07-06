@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Personal Finance Visualizer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A personal finance dashboard built with React that allows users to manage their expenses, visualize spending patterns, and compare actual expenses against monthly budgets using beautiful charts and insights.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Add, edit, and delete transactions
+- View pie and bar charts of expenses by category and by month
+- Set monthly budgets and compare them against actual spending
+- Get smart insights on over/under-budget categories
+- Intuitive and clean UI with responsive layout
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+##  Technologies Used
 
-### `npm test`
+- **Frontend**: React, Recharts
+- **Backend**: Node.js + Express (hosted on Render)
+- **Styling**: CSS (App.css, responsive layout)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+├── src/
+│   ├── App.js               # Main component
+│   ├── App.css              # Global styles (dark theme)
+│   ├── index.js             # Entry point
+│   ├── index.css            # Base resets
+│   └── Componenet/
+│       ├── TransactionForm.js
+│       ├── TransactionList.js
+│       ├── DashboardCards.jsx
+│       ├── BudgetForm.jsx
+│       ├── BudgetComparisonChart.jsx
+│       ├── ExpensesChart.js
+│       ├── CategoryPieChart.jsx
+│       └── SpendingInsights.jsx
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install Dependencies
 
-### `npm run eject`
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Start the Development Server
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+npm start
+App runs at: http://localhost:3000
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Live Website:
+https://personal-finance-visualizer-sd75.onrender.com/
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. API Endpoints:
+GET /transactions
 
-## Learn More
+POST /transactions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+PUT /transactions/:id
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+DELETE /transactions/:id
 
-### Code Splitting
+GET /budgets
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+POST /budgets
 
-### Analyzing the Bundle Size
+GET /categories
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Visualizations
+Category Pie Chart
+Shows distribution of expenses across categories.
 
-### Making a Progressive Web App
+Monthly Bar Chart
+Visualizes expenses grouped by month.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Budget Comparison
+Bar chart comparing actual expenses vs. budget per category for the selected month.
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Author
+Nishitha Adapa
+GitHub: (https://github.com/NishithaAdapa7)
+LinkedIn: https://www.linkedin.com/in/adapa-nishitha-629855257/
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+License
+This project is licensed under the MIT License.
